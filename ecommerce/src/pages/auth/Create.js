@@ -17,6 +17,7 @@ function Create() {
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <Formik>
             <form className="space-y-6" action="#" method="POST">
               <div>
                 <label
@@ -78,6 +79,7 @@ function Create() {
                 </button>
               </div>
             </form>
+            </Formik>
           </div>
         </div>
       </div>
