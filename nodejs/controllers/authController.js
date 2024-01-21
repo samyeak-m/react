@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
+const jwt =require("jsonwebtoken");
 
 const createUser = async(req,res)=>{
       try {
@@ -21,17 +22,30 @@ const createUser = async(req,res)=>{
 };
 const loginUser = async(req,res)=>{
     const {email,password}=req.body;
-    console.log(email);
+
     const user = await User.findOne({email});
+    if(!user){
+        return res.status(404).json({
+            message:"User not found"
+        });
+    }
     const isPasswordCorrect = await bcrypt.compare(password,user.password);
 
     if(isPasswordCorrect){
+        const access_token = jwt.sign(
+            {
+            id:user.id,
+            email:user.email
+        },"secret-key"
+        );
+
         return res.status(401).json({
-            message:"login success"
+            message:"login success",
+            access_token : access_token
         });
     }
 
-    return res.json({
+    return res.status(404).json({
         message:"login failed"
     
     });
