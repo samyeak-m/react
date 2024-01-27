@@ -39,7 +39,7 @@ const loginUser = async(req,res)=>{
         },"secret-key"
         );
 
-        return res.status(401).json({
+        return res.status(200).json({
             message:"login success",
             access_token : access_token
         });
