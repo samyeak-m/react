@@ -1,14 +1,20 @@
 import { Field, Form, Formik } from "formik";
 import React from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 function Create() {
   const onSubmit =(Values)=>{
     console.log(Values);
 
     axios.post("http://localhost:8082/auth/login",Values)
-    .then((res)=>{})
-    .catch((error)=>{});
+    .then((res)=>{
+      toast.success(res.data.message);
+      localStorage.setItem('token',res.data.access_token);
+    })
+    .catch((error)=>{
+      toast.error(error.response.data.message);
+    });
 
     // fetchapi
     // const requestOptions ={
