@@ -1,19 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import Genericinput from "../../../components/Genericinput";
 import { Form, Formik } from "formik";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 function CreateProduct() {
+    const [files, setFiles] = useState();
+    const initialValues = {
+        name: "",
+        description: "",
+        brand: "",
+        price: null
+    };
+    const onSubmit = (values) => {
+        if(!files) return toast.error("Please select a file");
+        const formData = new FormData();
+        console.log(values);
+        formData.append("name", values.name);
+        formData.append("description", values.description);
+        formData.append("brand", values.brand);
+        formData.append("price", values.price);
+        [...files].forEach((file,index) => {
+        formData.append(`image, files[${index}]`, file);
+        });
+        axios
+        .post(`${process.env.REACT_APP_API_URL}/product`, formData)
+            .then((res) => {
+                toast.success(res.data?.message);
+
+            })
+            .catch((error) => {
+                toast.error(error.response.data?.message);
+
+            });
+    };
+    const onChange = (event) => {
+        if (event.target.files) {
+            setFiles(event.target.files);
+        }
+    };
     return (
         <>
             <div className="flex flex-col items-start py-12 min-h-lvh sm:px-6 lg:px-8">
                 <div className="mt-8 sm:w-full sm:max-w-sm">
                     <div className="space-y-6">
 
-                        <Formik>
+                        <Formik onSubmit={onSubmit} initialValues={initialValues}>
                             <Form className="space-y-4">
                                 <Genericinput
                                     label="Product Name"
-                                    name="Name"
+                                    name="name"
                                     type="text"
                                     placeholder="Product Name"
                                 />
@@ -34,7 +70,7 @@ function CreateProduct() {
 
                                 <Genericinput
                                     label="Brand"
-                                    name="Brand"
+                                    name="brand"
                                     type="text"
                                     placeholder="Enter a Brand name"
                                 />
@@ -45,6 +81,7 @@ function CreateProduct() {
                                     type="file"
                                     placeholder="Select a product images"
                                     multiple="multiple"
+                                    onChange={onChange}
                                 />
 
 

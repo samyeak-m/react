@@ -18,7 +18,7 @@ app.use(
 
 app.use(cors());
 app.use("/auth",authRoutes);
-app.use("/product",[upload.array("images")], productRoutes);
+app.use("/product",[upload.any("images")], productRoutes);
 
 const getLocalIP = () => {
     const interfaces = os.networkInterfaces();
