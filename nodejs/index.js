@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const os = require("os");
 const authRoutes = require("./routes/authRoutes");
 const cors = require("cors");
+const productRoutes = require("./routes/productRoutes");
+const upload = require("./config/multerConfig");
 const app = express();
 const port = 8082;
 app.use(express.json());
@@ -16,6 +18,7 @@ app.use(
 
 app.use(cors());
 app.use("/auth",authRoutes);
+app.use("/product",[upload.array("images")], productRoutes);
 
 const getLocalIP = () => {
     const interfaces = os.networkInterfaces();

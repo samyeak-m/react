@@ -2,6 +2,7 @@ import './App.css';
 import {RouterProvider, createBrowserRouter} from "react-router-dom";
 import Create from './pages/auth/Create';
 import Login from './pages/auth/Login';
+import CreateProduct from './pages/dashboard/product/CreateProduct';
 import {Toaster} from "react-hot-toast";
 
 
@@ -19,7 +20,15 @@ function App() {
           path: "login",
           element: <Login/>
         }
-        
+      ]
+    },
+    {
+      path:"/dashboard",
+      children:[
+        {
+          path:"addProduct",
+          element:<CreateProduct/>
+        }
       ]
     }
   ]);
