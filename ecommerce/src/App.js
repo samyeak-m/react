@@ -4,6 +4,8 @@ import Create from './pages/auth/Create';
 import Login from './pages/auth/Login';
 import CreateProduct from './pages/dashboard/product/CreateProduct';
 import {Toaster} from "react-hot-toast";
+import ListProduct from './pages/dashboard/product/ListProduct';
+import DashboardLayout from './layout/dashboardLayout';
 
 
 function App() {
@@ -24,11 +26,17 @@ function App() {
     },
     {
       path:"/dashboard",
+      element:<DashboardLayout/>,
       children:[
         {
           path:"addProduct",
           element:<CreateProduct/>
-        }
+        },
+        {
+          path:"listProduct",
+          element:<ListProduct/>
+        
+        },
       ]
     }
   ]);
@@ -36,7 +44,7 @@ function App() {
   
   <RouterProvider router={router}/>;
 
-  <Toaster />
+  <Toaster position='top-right'/>
   </>
 }
 
