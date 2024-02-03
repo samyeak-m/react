@@ -1,21 +1,34 @@
 import { useEffect, useState } from "react";
 import MenuButton from "../../../components/MenuButton";
 import axios from "axios";
+import useFetch from "../../../hooks/useFetch";
+import Loading from "../../../components/Loading";
 
 export default function ListProduct() {
-  const [products, setProducts] = useState({
-    data: [],
-    total: 0
-  });
+  // const [products, setProducts] = useState({
+  //   data: [],
+  //   total: 0
+  // });
 
-  useEffect(() => {
-    axios.get(`${process.env.REACT_APP_API_URL}/product`).then((res) => {
-      setProducts({
-        data: res.data.data,
-        total: res.data.total
-      });
-    });
-  }, []);
+  const {data:products,
+    loading,
+    error} = 
+    useFetch(
+    `${process.env.REACT_APP_API_URL}/product`
+    );
+
+  // useEffect(() => {
+  //   axios.get(`${process.env.REACT_APP_API_URL}/product`).then((res) => {
+  //     setProducts({
+  //       data: res.data.data,
+  //       total: res.data.total
+  //     });
+  //   });
+  // }, []);
+
+  if(loading){
+    return<Loading />
+  }
 
   return (
     <div className="min-h-screen overflow-y-auto">
