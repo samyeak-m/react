@@ -8,6 +8,7 @@ import ListProduct from './pages/dashboard/product/ListProduct';
 import DashboardLayout from './layout/dashboardLayout';
 import UpdateProduct from './pages/dashboard/product/UpdateProduct';
 import Home from './pages/index';
+import SingleProduct from './pages/product/singleProduct';
 
 
 function App() {
@@ -20,6 +21,10 @@ function App() {
         path:"/",
         element:<Home />
       
+      },
+      {
+        path:"/product/:id",
+        element:<SingleProduct />
       }
     ]
     },

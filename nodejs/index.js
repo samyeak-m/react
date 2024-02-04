@@ -18,7 +18,9 @@ app.use(
 
 app.use(express.static("uploads"));
 
-app.use(cors());
+app.use(cors({
+    origin: "*"
+}));
 app.use("/auth", authRoutes);
 app.use("/product", [upload.any("images")], productRoutes);
 

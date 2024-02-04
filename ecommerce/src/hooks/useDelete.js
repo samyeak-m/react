@@ -7,7 +7,7 @@ const useDelete = (url, { onSuccess, onError }) => {
   const mutate = async (id,data) => {
     setLoading(true);
     try {
-      const response = await axios.delete(url+id, data);
+      const response = await axios.delete(url+`/${id}`, data);
       onSuccess(response.data);
     } catch (error) {
       onError(error);

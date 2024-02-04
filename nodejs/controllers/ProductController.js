@@ -92,6 +92,7 @@ const deleteProduct = async (req, res) => {
             product
         });
     } catch (error) {
+        console.log(error);
         return res.status(400).json({
             message: "Error to delete product",
             error: error

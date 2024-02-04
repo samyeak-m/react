@@ -5,6 +5,7 @@ import useFetch from "../../../hooks/useFetch";
 import Loading from "../../../components/Loading";
 import { useNavigate } from "react-router-dom";
 import useDelete from "../../../hooks/useDelete";
+import toast from "react-hot-toast";
 
 export default function ListProduct() {
   // const [products, setProducts] = useState({
@@ -12,23 +13,25 @@ export default function ListProduct() {
   //   total: 0
   // });
 
-  const {data:products,
+  const { data: products,
     loading,
-    error} = 
+    error,
+    refetch } =
     useFetch(
-    `${process.env.REACT_APP_API_URL}/product`
+      `${process.env.REACT_APP_API_URL}/product`
     );
 
-    const {loading:isDeleting,mutate}=useDelete(`${process.env.REACT_APP_API_URL}/product`,{
-      onSuccess:()=>{
-        alert('Product Deleted');
-      },
-      onError:(error)=>{
-        alert('Something went wrong');
-      }
-    
-    })
-    const navigate = useNavigate();
+  const { loading: isDeleting, mutate } = useDelete(`${process.env.REACT_APP_API_URL}/product`, {
+    onSuccess: (res) => {
+      toast.success(res?.data?.message);
+      refetch();
+    },
+    onError: (error) => {
+      toast.error(error?.response?.data?.message);
+    }
+
+  })
+  const navigate = useNavigate();
 
   // useEffect(() => {
   //   axios.get(`${process.env.REACT_APP_API_URL}/product`).then((res) => {
@@ -39,8 +42,8 @@ export default function ListProduct() {
   //   });
   // }, []);
 
-  if(loading){
-    return<Loading />
+  if (loading || isDeleting) {
+    return <Loading />
   }
 
   return (
@@ -74,10 +77,12 @@ export default function ListProduct() {
               <td>
                 <MenuButton
                   links={[
-                    { onClick: () => {
-                      navigate(`/dashboard/updateProduct/${product._id}`);
-                    }, label: "Update" },
-                    { onClick: () => {}, label: "Delete" }
+                    {
+                      onClick: () => {
+                        navigate(`/dashboard/updateProduct/${product._id}`);
+                      }, label: "Update"
+                    },
+                    { onClick: () => { mutate(product._id) }, label: "Delete" }
                   ]}
                 />
               </td>
