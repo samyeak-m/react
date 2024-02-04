@@ -5,6 +5,7 @@ const authRoutes = require("./routes/authRoutes");
 const cors = require("cors");
 const productRoutes = require("./routes/productRoutes");
 const upload = require("./config/multerConfig");
+const { expressjwt:jwt } = require("express-jwt");
 require("dotenv").config();
 
 const app = express();
@@ -22,7 +23,14 @@ app.use(cors({
     origin: "*"
 }));
 app.use("/auth", authRoutes);
-app.use("/product", [upload.any("images")], productRoutes);
+app.use("/product", [
+    jwt({
+        secret:process.env.SECRET_KEY,
+        algorithms: ["HS256"]
+    }),
+    upload.any("images")
+], 
+productRoutes);
 
 const getLocalIP = () => {
     const interfaces = os.networkInterfaces();
@@ -36,6 +44,16 @@ const getLocalIP = () => {
     }
     return null;
 };
+
+app.use(function (err, req, res, next) {
+    if (err.name === "UnauthorizedError") {
+      res.status(401).send({
+        message:"Invalid Token"
+      });
+    } else {
+      next(err);
+    }
+  });
 
 app.listen(port, async () => {
     try {
