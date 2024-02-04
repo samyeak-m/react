@@ -5,20 +5,22 @@ const authRoutes = require("./routes/authRoutes");
 const cors = require("cors");
 const productRoutes = require("./routes/productRoutes");
 const upload = require("./config/multerConfig");
+require("dotenv").config();
+
 const app = express();
 const port = 8082;
 app.use(express.json());
-
 app.use(
     express.urlencoded({
-      extended: true
+        extended: true
     })
-  );
-  
+);
+
+app.use(express.static("uploads"));
 
 app.use(cors());
-app.use("/auth",authRoutes);
-app.use("/product",[upload.any("images")], productRoutes);
+app.use("/auth", authRoutes);
+app.use("/product", [upload.any("images")], productRoutes);
 
 const getLocalIP = () => {
     const interfaces = os.networkInterfaces();
@@ -35,12 +37,12 @@ const getLocalIP = () => {
 
 app.listen(port, async () => {
     try {
-        const mongoDBURL ='mongodb+srv://maharjansamyak:Smk01531@cluster0.wpltpkf.mongodb.net/Cluster0?retryWrites=true&w=majority';
+        const mongoDBURL = 'mongodb+srv://maharjansamyak:Smk01531@cluster0.wpltpkf.mongodb.net/Cluster0?retryWrites=true&w=majority';
         await mongoose.connect(mongoDBURL);
         const localIP = getLocalIP();
-        console.log("\n\nServer started on port\n\n\tlocal:",`http://localhost:${port}`);
+        console.log("\n\nServer started on port\n\n\tlocal:", `http://localhost:${port}`);
         if (localIP) {
-            console.log("\texternal:",`http://${localIP}:${port}`);
+            console.log("\texternal:", `http://${localIP}:${port}`);
         } else {
             console.log("Local IP not available.");
         }

@@ -54,7 +54,7 @@ const updateProduct = async (req, res) => {
     try {
         const id = req.params.id;
         const { name, price, description, brand } = req.body;
-        const images = req.files.map((image) => image.filename);
+        const images = req.files?.map((image) => image.filename);
 
         const product = await Product.findById(id);
         if (!product) {
@@ -63,7 +63,7 @@ const updateProduct = async (req, res) => {
             });
         }
 
-        if (images.length > 0) {
+        if (images?.length > 0) {
             await Product.findByIdAndUpdate(id, { name, price, description, brand, images })
         }
         else {
@@ -83,9 +83,26 @@ const updateProduct = async (req, res) => {
     }
 };
 
+const deleteProduct = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const product = await Product.findByIdAndDelete(id);
+        return res.json({
+            message: "Product deleted successfully",
+            product
+        });
+    } catch (error) {
+        return res.status(400).json({
+            message: "Error to delete product",
+            error: error
+        });
+    }
+};
+
 module.exports = {
     createProduct,
     getAllProducts,
     getProducts,
-    updateProduct
+    updateProduct,
+    deleteProduct
 };

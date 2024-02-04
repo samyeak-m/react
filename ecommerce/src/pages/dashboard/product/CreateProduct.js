@@ -3,8 +3,10 @@ import Genericinput from "../../../components/Genericinput";
 import { Form, Formik } from "formik";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 function CreateProduct() {
+    const navigate = useNavigate();
     const [files, setFiles] = useState();
     const initialValues = {
         name: "",
@@ -27,6 +29,7 @@ function CreateProduct() {
         .post(`${process.env.REACT_APP_API_URL}/product`, formData)
             .then((res) => {
                 toast.success(res.data?.message);
+                navigate("/dashboard/listProduct");
 
             })
             .catch((error) => {

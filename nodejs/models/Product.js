@@ -33,5 +33,20 @@ const productSchema = new mongoose.Schema({
     }
 });
 
+productSchema.post("find", function (docs, next) {
+    const API_URL = process.env.API_URL;
+    docs.forEach((doc) => {
+      doc._doc = {
+        ...doc._doc,
+        image:
+          doc.images && doc.images.length > 0
+            ? API_URL + "/" + doc.images[0]
+            : null
+      };
+    });
+  
+    next();
+  });
+
 const Product = mongoose.model("Product",productSchema);
 module.exports=Product;
