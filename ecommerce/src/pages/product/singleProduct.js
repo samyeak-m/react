@@ -2,6 +2,9 @@ import { useParams } from "react-router-dom";
 import ImageGallery from "../../components/imageGallery";
 import useFetch from "../../hooks/useFetch";
 import Loading from "../../components/Loading";
+import usePost from "../../hooks/usePost";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 const images = [
     "https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg",
@@ -13,13 +16,7 @@ export default function SingleProduct() {
     const { id } = useParams();
     const [quantity,setQuantity]=useState(1);
 
-    const onSubmit=()=>{
-    const qty = parseInt(quantity);
-    if (qty <1){
-        toast.error("min 1");
-        return;
-    }
-    };
+    
     const { data,
         loading,
         error,
@@ -27,6 +24,24 @@ export default function SingleProduct() {
         useFetch(
             `${process.env.REACT_APP_API_URL}/product/${id}`
         );
+
+        const {loading:isOrderLoading, mutate} =usePost(`${process.env.REACT_APP_API_URL}/order`,{
+            onSuccess:()=>{},
+            onError:()=>{}
+        });
+
+        const onSubmit=()=>{
+            const qty = parseInt(quantity);
+            if (qty <1){
+                toast.error("min 1");
+                return;
+            }
+            const submitData ={
+                productId:id,
+                quantity:qty
+            };
+            mutate(submitData);
+            };
 
         const {data:product} = data||{};
         const images = product?.images?.map((image) => process.env.REACT_APP_API_URL + "/" + image)||[];

@@ -6,6 +6,7 @@ const cors = require("cors");
 const productRoutes = require("./routes/productRoutes");
 const upload = require("./config/multerConfig");
 const { expressjwt:jwt } = require("express-jwt");
+const orderRoutes = require("./routes/orderRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -31,6 +32,17 @@ app.use("/product", [
     upload.any("images")
 ], 
 productRoutes);
+
+app.use(
+    "/order",
+    [
+      jwt({
+        secret: process.env.SECRET_KEY,
+        algorithms: ["HS256"]
+      })
+    ],
+    orderRoutes
+  );
 
 const getLocalIP = () => {
     const interfaces = os.networkInterfaces();
