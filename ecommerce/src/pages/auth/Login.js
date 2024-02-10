@@ -7,7 +7,7 @@ function Create() {
   const onSubmit =(Values)=>{
     console.log(Values);
 
-    axios.post("http://localhost:8082/auth/login",Values)
+    axios.post(`${process.env.REACT_APP_API_URL}/auth/login`,Values)
     .then((res)=>{
       toast.success(res.data.message);
       localStorage.setItem('token',res.data.access_token);
