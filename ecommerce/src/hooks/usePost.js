@@ -7,7 +7,11 @@ const usePost = (url, { onSuccess, onError }) => {
   const mutate = async (data) => {
     setLoading(true);
     try {
-      const response = await axios.post(url, data);
+      const response = await axios.post(url, data,{
+        headers:{
+        Authorization:`Bearer ${localStorage.getItem("token")}`
+    }
+  });
       onSuccess(response.data);
     } catch (error) {
       onError(error);

@@ -25,10 +25,10 @@ app.use(cors({
 }));
 app.use("/auth", authRoutes);
 app.use("/product", [
-   /* jwt({
+    jwt({
         secret:process.env.SECRET_KEY,
         algorithms: ["HS256"]
-    }),*/
+    }),
     upload.any("images")
 ], 
 productRoutes);

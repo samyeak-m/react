@@ -9,24 +9,25 @@ import DashboardLayout from './layout/dashboardLayout';
 import UpdateProduct from './pages/dashboard/product/UpdateProduct';
 import Home from './pages/index';
 import SingleProduct from './pages/product/singleProduct';
+import ListOrder from './pages/dashboard/order/ListOrder';
 
 
 function App() {
   const router = createBrowserRouter([
     {
 
-      path:"/",
-      children:[
+      path: "/",
+      children: [
         {
-        path:"/",
-        element:<Home />
-      
-      },
-      {
-        path:"/product/:id",
-        element:<SingleProduct />
-      }
-    ]
+          path: "/",
+          element: <Home />
+
+        },
+        {
+          path: "/product/:id",
+          element: <SingleProduct />
+        }
+      ]
     },
     {
       path: "/auth",
@@ -59,6 +60,10 @@ function App() {
           path: "updateProduct/:id",
           element: <UpdateProduct />
         },
+        {
+          path: "ListOrder",
+          element: <ListOrder />
+        }
       ]
     }
   ]);

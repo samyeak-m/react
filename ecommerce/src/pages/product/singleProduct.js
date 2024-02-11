@@ -14,9 +14,9 @@ const images = [
 
 export default function SingleProduct() {
     const { id } = useParams();
-    const [quantity,setQuantity]=useState(1);
+    const [quantity, setQuantity] = useState(1);
 
-    
+
     const { data,
         loading,
         error,
@@ -25,26 +25,26 @@ export default function SingleProduct() {
             `${process.env.REACT_APP_API_URL}/product/${id}`
         );
 
-        const {loading:isOrderLoading, mutate} =usePost(`${process.env.REACT_APP_API_URL}/order`,{
-            onSuccess:()=>{},
-            onError:()=>{}
-        });
+    const { loading: isOrderLoading, mutate } = usePost(`${process.env.REACT_APP_API_URL}/order`, {
+        onSuccess: () => { },
+        onError: () => { }
+    });
 
-        const onSubmit=()=>{
-            const qty = parseInt(quantity);
-            if (qty <1){
-                toast.error("min 1");
-                return;
-            }
-            const submitData ={
-                productId:id,
-                quantity:qty
-            };
-            mutate(submitData);
-            };
+    const onSubmit = () => {
+        const qty = parseInt(quantity);
+        if (qty < 1) {
+            toast.error("min 1");
+            return;
+        }
+        const submitData = {
+            productId: id,
+            quantity: qty
+        };
+        mutate(submitData);
+    };
 
-        const {data:product} = data||{};
-        const images = product?.images?.map((image) => process.env.REACT_APP_API_URL + "/" + image)||[];
+    const { data: product } = data || {};
+    const images = product?.images?.map((image) => process.env.REACT_APP_API_URL + "/" + image) || [];
 
     if (loading) {
         return <Loading />
@@ -79,9 +79,10 @@ export default function SingleProduct() {
                         </div>
 
                         <div className="mt-6">
-                        <input type="number" min={1} defaultValue={1} onChange={(event)=>{setQuantity(event.target.value)}}></input>
+                            <input type="number" min={1} defaultValue={1} onChange={(event) => { setQuantity(event.target.value) }}/>
                             <div className="flex mt-10 sm:flex-col1">
                                 <button
+                                    onClick={onSubmit}
                                     type="button"
                                     className="flex items-center justify-center flex-1 max-w-xs px-8 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500 sm:w-full">
                                     Checkout

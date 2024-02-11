@@ -26,7 +26,11 @@ function CreateProduct() {
         formData.append(`image, files[${index}]`, file);
         });
         axios
-        .post(`${process.env.REACT_APP_API_URL}/product`, formData)
+        .post(`${process.env.REACT_APP_API_URL}/product`, formData,{
+            headers:{
+            Authorization:`Bearer ${localStorage.getItem("token")}`
+        }
+      })
             .then((res) => {
                 toast.success(res.data?.message);
                 navigate("/dashboard/listProduct");
