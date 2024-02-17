@@ -2,8 +2,10 @@ import { Field, Form, Formik } from "formik";
 import React from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
-function Create() {
+function Login() {
+  const navigate = useNavigate();
   const onSubmit =(Values)=>{
     console.log(Values);
 
@@ -11,6 +13,7 @@ function Create() {
     .then((res)=>{
       toast.success(res.data.message);
       localStorage.setItem('token',res.data.access_token);
+      navigate("/");
     })
     .catch((error)=>{
       toast.error(error.response.data.message);
@@ -104,4 +107,4 @@ function Create() {
   );
 }
 
-export default Create;
+export default Login;

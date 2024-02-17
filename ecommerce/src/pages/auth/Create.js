@@ -1,30 +1,55 @@
 import { Field, Form, Formik } from "formik";
 import React from "react";
+import toast from "react-hot-toast";
+import usePost from "../../hooks/usePost";
+import { useNavigate } from "react-router-dom";
 
 function Create() {
-  const onSubmit =(Values)=>{
+  const navigate = useNavigate();
+
+  const onSubmit = (Values) => {
     console.log(Values);
-    const requestOptions ={
+    const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(Values)
-    
     };
 
-    fetch("http://localhost:8082/auth/create", requestOptions)
-    .then((res)=>{
-      console.log(res.json());
-      if(!res.ok)throw new Error();
-      alert("Successfully Created Account");
+    fetch("http://localhost:8082/auth/create", requestOptions).then((res) => {
+      return res.json();
     })
-    .catch((error)=>{
-      alert("Failed to Created Account");
-    }
-    );
-    
+      .then((res) => {
+        console.log(res.json());
+        if (!res.ok) throw new Error();
+
+        toast.success("Successfully Created Account");
+        localStorage.setItem('token', res.access_token);
+      })
+      .catch((error) => {
+        alert("Failed to Created Account");
+      }
+      );
+
   };
+
+  const { loading: iscreateLoading, mutate: createacc } = usePost(
+    `${process.env.REACT_APP_API_URL}/auth/create`,
+    {
+      onSuccess: (res) => {
+        toast.success("Successfully Created Account");
+        localStorage.setItem('token', res.access_token);
+      navigate("/");
+
+
+      },
+      onError: (error) => {
+
+        toast.error("Failed to Created Account");
+      }
+    }
+  );
   return (
     <>
       <div className="min-h-lvh flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -41,11 +66,11 @@ function Create() {
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <Formik initialValues={{}} onSubmit={onSubmit}>
+            <Formik initialValues={{}} onSubmit={createacc}>
               <Form className="space-y-6">
                 <div>
                   <label
-                    htmlFor="username" 
+                    htmlFor="username"
                     className="block text-sm font-medium text-gray-700">
                     Username
                   </label>
