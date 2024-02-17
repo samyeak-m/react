@@ -1,6 +1,8 @@
 import { Outlet } from "react-router-dom";
+import useCheckToken from "../hooks/useCheckToken";
 
 export default function DashboardLayout() {
+  useCheckToken();
   return (
     <div className="flex flex-col flex-grow h-screen overflow-y-auto bg-white border-r border-gray-200">
       <div className="grid flex-grow h-full grid-cols-9 grid-rows-1">

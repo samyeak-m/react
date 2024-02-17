@@ -10,6 +10,9 @@ import UpdateProduct from './pages/dashboard/product/UpdateProduct';
 import Home from './pages/index';
 import SingleProduct from './pages/product/singleProduct';
 import ListOrder from './pages/dashboard/order/ListOrder';
+import Cart from "./pages/cart";
+import MainLayout from './layout/MainLayout';
+
 
 
 function App() {
@@ -17,6 +20,7 @@ function App() {
     {
 
       path: "/",
+      element: <MainLayout />,
       children: [
         {
           path: "/",
@@ -26,6 +30,10 @@ function App() {
         {
           path: "/product/:id",
           element: <SingleProduct />
+        },
+        {
+          path: "/cart",
+          element: <Cart />
         }
       ]
     },
