@@ -1,16 +1,21 @@
 import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
+import {Link} from "react-router-dom";
 
 function CartItems(props) {
   return (
+    <>
     <span className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 border-b-2 border-transparent ">
       Cart Items : {props?.length}
     </span>
+    <button className="px-4 py-2 ml-2 text-sm text-white bg-indigo-600 rounded-md">Logout</button>
+    </>
   );
 }
 
 export default function Navbar() {
   return (
+
     <Disclosure as="nav" className="bg-white shadow">
       {({ open }) => (
         <>
@@ -30,16 +35,16 @@ export default function Navbar() {
                   />
                 </div>
                 <div className="hidden sm:col-span-2 sm:ml-6 sm:flex sm:space-x-8">
-                  <a
-                    href="#"
+                  <Link
+                    to="/"
                     className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700">
                     Home
-                  </a>
-                  <a
-                    href="#"
+                  </Link>
+                  <Link
+                    to="/cart"
                     className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 border-b-2 border-transparent hover:border-gray-300 hover:text-gray-700">
-                    About Us
-                  </a>
+                    Cart
+                  </Link>
                 </div>
                 <div className="items-center justify-end hidden sm:col-span-5 sm:flex">
                   <CartItems length={0} />
@@ -71,7 +76,7 @@ export default function Navbar() {
                 as="a"
                 href="#"
                 className="block py-2 pl-3 pr-4 text-base font-medium text-gray-500 border-l-4 border-transparent hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700">
-                About Us
+                Cart
               </Disclosure.Button>
               <Disclosure.Button as="div" className="pl-3 pr-4">
                 <CartItems length={0} />
