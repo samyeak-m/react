@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar'
 import { Outlet } from 'react-router-dom'
 import Footer from '../components/Footer'
 import useCheckToken from '../hooks/useCheckToken'
+import AiChatWidget from '../components/AiChatWidget'
 
 function MainLayout() {
     useCheckToken ();
@@ -11,7 +12,7 @@ function MainLayout() {
         <Navbar />
         <Outlet />
         <Footer />
-      
+        <AiChatWidget />
     </div>
   )
 }

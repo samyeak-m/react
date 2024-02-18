@@ -8,6 +8,7 @@ const upload = require("./config/multerConfig");
 const { expressjwt:jwt } = require("express-jwt");
 const orderRoutes = require("./routes/orderRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 require("dotenv").config();
 
 const app = express();
@@ -55,6 +56,7 @@ app.use(
     cartRoutes
   );
   
+  app.use("/chat",chatRoutes)
 
 const getLocalIP = () => {
     const interfaces = os.networkInterfaces();
