@@ -5,13 +5,12 @@ import usePost from "../hooks/usePost";
 function AiChatWidget() {
   const [count, setCount] = useState(0);
   const [chatWindowOpen, setChatWindowOpen] = useState(true);
-  const {mutate,loading} = usePost('`${process.env.REACT_APP_API_URL}/chat`',{
+  const {mutate,loading} = usePost(`${process.env.REACT_APP_API_URL}/chat`,{
     onSuccess:(res)=>{
       addResponseMessage(res?.result);
     },
     onError:()=>{
       addResponseMessage("Sorry, I am not available at the moment. Please try again later.");
-      setCount((c) => c + 1);
     }
   });
 
