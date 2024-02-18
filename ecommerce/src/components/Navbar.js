@@ -1,14 +1,24 @@
 import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+
 
 function CartItems(props) {
+  const navigate = useNavigate();
+
+const onLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/auth/login");
+    
+};
   return (
     <>
     <span className="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 border-b-2 border-transparent ">
       Cart Items : {props?.length}
     </span>
-    <button className="px-4 py-2 ml-2 text-sm text-white bg-indigo-600 rounded-md">Logout</button>
+    <button 
+    onClick={onLogout}
+    className="px-4 py-2 ml-2 text-sm text-white bg-indigo-600 rounded-md">Logout</button>
     </>
   );
 }
