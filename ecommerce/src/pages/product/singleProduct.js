@@ -3,8 +3,9 @@ import ImageGallery from "../../components/imageGallery";
 import useFetch from "../../hooks/useFetch";
 import Loading from "../../components/Loading";
 import usePost from "../../hooks/usePost";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
+import { CartContext } from "../../context/CartProvider";
 
 const images = [
     "https://tailwindui.com/img/ecommerce-images/product-page-03-product-01.jpg",
@@ -15,6 +16,7 @@ const images = [
 export default function SingleProduct() {
     const { id } = useParams();
     const [quantity, setQuantity] = useState(1);
+    const cartContext=useContext(CartContext);
 
 
     const { data,
@@ -39,6 +41,7 @@ export default function SingleProduct() {
         `${process.env.REACT_APP_API_URL}/cart`,
         {
           onSuccess: (res) => {
+            cartContext?.refetch();
             toast.success(res.message);
           },
           onError: () => {}

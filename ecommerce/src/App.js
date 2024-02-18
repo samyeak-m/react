@@ -12,6 +12,7 @@ import SingleProduct from './pages/product/singleProduct';
 import ListOrder from './pages/dashboard/order/ListOrder';
 import Cart from "./pages/cart";
 import MainLayout from './layout/MainLayout';
+import CartProvider from './context/CartProvider';
 
 
 
@@ -75,12 +76,15 @@ function App() {
       ]
     }
   ]);
-  return <>
+  return ( 
+  <>
+    <CartProvider>
+      <RouterProvider router={router} />
 
-    <RouterProvider router={router} />
-
-    <Toaster position='top-right' />
+      <Toaster position='top-right' />
+    </CartProvider>
   </>
+  );
 }
 
 export default App;
