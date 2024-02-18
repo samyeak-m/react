@@ -29,10 +29,12 @@ const addToCart = async (req, res) => {
 };
 
 const getCartItems = async (req, res) => {
-  const { id } = req.auth;
-  const cart = await Cart.find({ userId: id })
+  const { id, email, role } = req.auth;
+  const cart = await Cart.find({ userId: id})
     .populate("productId")
     .populate("userId");
+    
+
   return res.json({
     data: cart
   });

@@ -1,11 +1,16 @@
 import { Field, Form, Formik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {navigate('/')};
+    }, []);
   const onSubmit =(Values)=>{
     console.log(Values);
 

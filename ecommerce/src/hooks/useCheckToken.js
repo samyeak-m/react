@@ -6,6 +6,7 @@ function useCheckToken() {
 
     useEffect(() => {
         const token = localStorage.getItem('token');
+        
         if (!token) {navigate('/auth/login')};
     }, []);
 
